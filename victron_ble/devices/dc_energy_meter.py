@@ -3,8 +3,8 @@ from typing import Optional
 
 from construct import Int16sl, Int16ul, Int24sl, Struct
 
-from victron_ble.devices.base import AlarmReason, Device, DeviceData, kelvin_to_celsius
-from victron_ble.devices.battery_monitor import AuxMode
+from devices.base import AlarmReason, Device, DeviceData, kelvin_to_celsius
+from devices.battery_monitor import AuxMode
 
 
 class MeterType(Enum):

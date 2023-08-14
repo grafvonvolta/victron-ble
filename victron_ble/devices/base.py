@@ -7,7 +7,7 @@ from Crypto.Cipher import AES
 from Crypto.Util import Counter
 from Crypto.Util.Padding import pad
 
-from victron_ble.exceptions import AdvertisementKeyMismatchError
+from exceptions import AdvertisementKeyMismatchError
 
 
 # Sourced from VE.Direct docs

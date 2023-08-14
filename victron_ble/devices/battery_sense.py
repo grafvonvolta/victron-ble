@@ -1,5 +1,5 @@
-from victron_ble.devices.base import DeviceData, kelvin_to_celsius
-from victron_ble.devices.battery_monitor import BatteryMonitor
+from devices.base import DeviceData, kelvin_to_celsius
+from devices.battery_monitor import BatteryMonitor
 
 
 class BatterySenseData(DeviceData):

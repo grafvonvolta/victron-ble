@@ -1,6 +1,6 @@
 from construct import Bytes, GreedyBytes, Int8ul, Int16sl, Int16ul, Struct
 
-from victron_ble.devices.base import ACInState, Device, DeviceData, OperationMode
+from devices.base import ACInState, Device, DeviceData, OperationMode
 
 
 class VEBusData(DeviceData):

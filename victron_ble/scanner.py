@@ -13,8 +13,8 @@ from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
 from bleak.backends.scanner import AdvertisementData
 
-from victron_ble.devices import Device, DeviceData, detect_device_type
-from victron_ble.exceptions import AdvertisementKeyMissingError, UnknownDeviceError
+from devices import Device, DeviceData, detect_device_type
+from exceptions import AdvertisementKeyMissingError, UnknownDeviceError
 
 logger = logging.getLogger(__name__)
 

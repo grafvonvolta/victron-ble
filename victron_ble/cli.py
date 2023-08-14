@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import click
 
-from victron_ble.scanner import DebugScanner, DiscoveryScanner, Scanner
+from scanner import DebugScanner, DiscoveryScanner, Scanner
 
 logger = logging.getLogger("victron_ble")
 logging.basicConfig()

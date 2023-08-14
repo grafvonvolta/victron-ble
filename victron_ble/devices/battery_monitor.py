@@ -3,7 +3,7 @@ from typing import Optional, Type
 
 from construct import GreedyBytes, Int16sl, Int16ul, Int24sl, Struct
 
-from victron_ble.devices.base import AlarmReason, Device, DeviceData, kelvin_to_celsius
+from devices.base import AlarmReason, Device, DeviceData, kelvin_to_celsius
 
 
 class AuxMode(Enum):

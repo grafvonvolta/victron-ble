@@ -1,6 +1,6 @@
 from construct import GreedyBytes, Int8ul, Int16sl, Int16ul, Int32ul, Struct
 
-from victron_ble.devices.base import (
+from devices.base import (
     ChargerError,
     Device,
     DeviceData,
