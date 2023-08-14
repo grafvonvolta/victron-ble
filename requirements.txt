@@ -2,3 +2,6 @@ bleak>=0.19.0
 click>=8.0.0
 construct>=2.0
 pycryptodome>=3.0.0
+python-box>=7.0.1
+pyyaml>=6.0.1
+paho-mqtt>=1.6.1

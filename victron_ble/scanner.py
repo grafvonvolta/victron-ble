@@ -1,11 +1,13 @@
-from __future__ import annotations
-
 import inspect
 import json
 import logging
 import time
 from enum import Enum
 from typing import Set
+from box import Box
+import yaml
+import paho.mqtt.client as mqtt
+import paho.mqtt.subscribe as subscribe
 
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
@@ -15,6 +17,11 @@ from victron_ble.devices import Device, DeviceData, detect_device_type
 from victron_ble.exceptions import AdvertisementKeyMissingError, UnknownDeviceError
 
 logger = logging.getLogger(__name__)
+
+with open("mqtt_config.yml", "r") as yamlfile:
+    config = Box(yaml.load(yamlfile, Loader=yaml.FullLoader))
+    print("config read successful")
+
 
 
 class BaseScanner:
@@ -113,6 +120,51 @@ class Scanner(BaseScanner):
             "payload": parsed,
         }
         print(json.dumps(blob, cls=DeviceDataEncoder, indent=2))
+
+        client = mqtt.Client()
+        client.username_pw_set(config.user, config.pw)
+        client.connect(config.hostname)
+
+        m = "bo_lifepo4_voltage"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " volt=" + str(parsed.get_voltage())
+
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_starter_voltage"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " volt=" + str(parsed.get_starter_voltage())
+
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_current"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " ampere=" + str(parsed.get_current())
+
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_consumed_ah"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " ah=" + str(parsed.get_consumed_ah())
+
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_emaining_mins"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " mins=" + str(parsed.get_remaining_mins())
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_soc"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " soc=" + str(parsed.get_soc())
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_power"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " watt=" + str(parsed.get_current() * parsed.get_voltage() )
+        client.publish(mqtt_topic, mqtt_payload)
+
+        client.disconnect()
 
 
 class DiscoveryScanner(BaseScanner):
