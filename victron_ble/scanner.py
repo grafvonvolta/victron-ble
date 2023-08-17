@@ -165,8 +165,21 @@ class Scanner(BaseScanner):
         client.publish(mqtt_topic, mqtt_payload)
 
         m = "bo_remaining_mins_calc"
+        current = parsed.get_current()
         mqtt_topic = config.out_topic + m
-        mqtt_payload = m + " mins_calc=" + str((300 - parsed.get_consumed_ah())/parsed.get_current())
+
+        if current < 0:
+            remaining_mins = (300 - parsed.get_consumed_ah())/-current
+        elif current > 0:
+            remaining_mins = parsed.get_consumed_ah()/ current
+        else:
+            remaining_mins = 999999
+        mqtt_payload = m + " mins_calc=" + str(remaining_mins)
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_rssi"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " rssi=" + str(ble_device.rssi)
         client.publish(mqtt_topic, mqtt_payload)
 
         client.disconnect()
