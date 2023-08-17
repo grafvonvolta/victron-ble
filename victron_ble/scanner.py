@@ -149,7 +149,7 @@ class Scanner(BaseScanner):
 
         client.publish(mqtt_topic, mqtt_payload)
 
-        m = "bo_emaining_mins"
+        m = "bo_remaining_mins"
         mqtt_topic = config.out_topic + m
         mqtt_payload = m + " mins=" + str(parsed.get_remaining_mins())
         client.publish(mqtt_topic, mqtt_payload)
@@ -162,6 +162,11 @@ class Scanner(BaseScanner):
         m = "bo_power"
         mqtt_topic = config.out_topic + m
         mqtt_payload = m + " watt=" + str(parsed.get_current() * parsed.get_voltage() )
+        client.publish(mqtt_topic, mqtt_payload)
+
+        m = "bo_remaining_mins_calc"
+        mqtt_topic = config.out_topic + m
+        mqtt_payload = m + " mins_calc=" + str((300 - parsed.get_consumed_ah())/parsed.get_current())
         client.publish(mqtt_topic, mqtt_payload)
 
         client.disconnect()
